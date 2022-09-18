@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv'
 import { Client } from "discord.js";
 import { exampleEmbed, exampleEmbed2 } from './components/embedForm';
 import dayjs from "dayjs";
+import { getLocalTime } from './utils/date-utils';
 dotenv.config()
 
 console.log("Bot is starting...");
@@ -17,7 +18,7 @@ const main = async () => {
     if (!channel || !channel.isTextBased()) return;
     channel.send({ embeds: [exampleEmbed2] });
     channel.send("Hello world!");
-    channel.send("The time is " + dayjs().format("hh:mm:ss"));
+    channel.send("The time is " + getLocalTime);
 
 
 }
