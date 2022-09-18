@@ -18,7 +18,7 @@ const main = async () => {
     if (!channel || !channel.isTextBased()) return;
     channel.send({ embeds: [exampleEmbed2] });
     channel.send("Hello world!");
-    channel.send("The time is " + getLocalTime);
+    channel.send("The time is " + getLocalTime("America/Toronto"));
 
 
 }
