@@ -1,17 +1,6 @@
-import { SlashCommandBuilder, Routes } from "discord.js";
 import { REST } from "@discordjs/rest";
-
-const commands = [
-  new SlashCommandBuilder()
-    .setName("ping")
-    .setDescription("Replies with pong!"),
-  new SlashCommandBuilder()
-    .setName("server")
-    .setDescription("Replies with server info!"),
-  new SlashCommandBuilder()
-    .setName("user")
-    .setDescription("Replies with user info!"),
-].map((command) => command.toJSON());
+import { Routes } from "discord.js";
+import { commandsList } from "./commandsList";
 
 export const registerCommands = async () => {
   const token = process.env.DISCORD_BOT_TOKEN;
@@ -21,7 +10,7 @@ export const registerCommands = async () => {
   const rest = new REST({ version: "10" }).setToken(token ?? "");
   await rest
     .put(Routes.applicationGuildCommands(clientId ?? "", guildId ?? ""), {
-      body: commands,
+      body: commandsList,
     })
     .then((data: any) =>
       console.log(

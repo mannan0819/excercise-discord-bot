@@ -11,10 +11,11 @@ datasource db {
 }
 
 model Plans {
-  id        Int      @id @default(autoincrement())
-  plan      String   @db.VarChar(5000)
-  ping      Boolean  @default(false)
-  isDefault Boolean  @default(false)
-  frequency String   @default("daily") @db.VarChar(255)
-  createdAt DateTime @default(now()) @db.Timestamp(6)
+  id            Int      @id @default(autoincrement())
+  plan          String   @db.VarChar(5000)
+  ping          Boolean  @default(false)
+  isDefault     Boolean  @default(false)
+  discordUesrId String   @unique @db.VarChar(255)
+  frequency     String   @default("daily") @db.VarChar(255)
+  createdAt     DateTime @default(now()) @db.Timestamp(6)
 }
