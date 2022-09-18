@@ -19,5 +19,6 @@ const main = async () => {
     channel.send("Hello world!");
     channel.send("The time is " + dayjs().format("hh:mm:ss"));
 
+
 }
 main();
