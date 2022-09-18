@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { getLocalTime } from "./utils/date-utils";
 import runEvery from "./utils/runEvery";
 import { registerCommands } from "./utils/command-builder";
-import { commands } from "./utils/commands";
+import { commands } from "./commands";
 dotenv.config();
 
 console.log("Bot is starting...");
