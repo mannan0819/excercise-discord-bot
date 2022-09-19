@@ -1,4 +1,5 @@
 import { Client, Interaction, SlashCommandBuilder } from "discord.js";
+import { newBoard } from "../utils/progressBoard";
 import { buildEmbed } from "../components/embedForm";
 import { complete } from "../db/completed";
 import { addPlan, getDefaultPlan } from "../db/plan";
@@ -23,7 +24,6 @@ export const commands = (client: Client) => {
       const plan = await getDefaultPlan();
       if (!plan) reply = "No default plan found";
       else reply += plan.plan;
-      console.log(interaction.user)
       await interaction.reply({ content: reply, ephemeral: true });
     } else if (commandName === "signup") {
       let userplan = interaction.options.getString("plan");
@@ -34,6 +34,7 @@ export const commands = (client: Client) => {
       if (!plan) reply = "Something went wrong. Your plan was not saved.";
       else reply = "Your plan has been set. \n" + plan.plan;
       await interaction.reply({ content: reply, ephemeral: true });
+      newBoard(client);
     }
     else if (commandName === "done") {
       const completed = await complete(interaction.user.id);
@@ -42,9 +43,11 @@ export const commands = (client: Client) => {
           "Congradualtions on completing your workout!" :
           "You have already completed your workout for today!";
       await interaction.reply({ content: reply, ephemeral: true });
-      const channel = await client.channels.fetch(process.env.CHANNEL_ID!);
-      if (!channel || !channel.isTextBased()) return;
-      channel.send({ embeds: [await buildEmbed()] });
+      newBoard(client);
+    } else if (commandName === "board") {
+      await interaction.reply({ content: 'updating' });
+      await interaction.deleteReply();
+      newBoard(client);
     }
   });
 };

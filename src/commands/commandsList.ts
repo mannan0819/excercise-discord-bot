@@ -26,4 +26,7 @@ export const commandsList = [
   new SlashCommandBuilder()
     .setName("done")
     .setDescription("Call this command to complete your daily workout!"),
+  new SlashCommandBuilder()
+    .setName("board")
+    .setDescription("Call this command to update the progress board!"),
 ].map((command) => command.toJSON());

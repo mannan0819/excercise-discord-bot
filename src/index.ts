@@ -6,6 +6,7 @@ import { getLocalTime } from "./utils/date-utils";
 import runEvery from "./utils/runEvery";
 import { commands } from "./commands";
 import { registerCommands } from "./commands/commandBuilder";
+import { newBoard } from "./utils/progressBoard";
 dotenv.config();
 
 console.log("Bot is starting...");
@@ -27,7 +28,9 @@ const main = async () => {
 
   const channel = await client.channels.fetch(process.env.CHANNEL_ID!);
   if (!channel || !channel.isTextBased()) return;
-  channel.send({ embeds: [await buildEmbed()] });
+
+
+  newBoard(client);
 
   // channel.send("Bot Has started!!");
   // client.on("messageCreate", async (message) => {
