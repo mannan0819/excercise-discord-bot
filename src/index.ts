@@ -50,7 +50,7 @@ const main = async () => {
   // }, 10000);
 
   runEvery(() => {
-    channel.send("The time is " + getLocalTime("America/Toronto"));
+    channel.send("The Local time is " + getLocalTime("America/Toronto"));
   });
 };
 
