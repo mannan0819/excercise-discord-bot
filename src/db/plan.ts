@@ -17,9 +17,13 @@ export const addPlan = async (
   plan: string,
   ping: false,
   frequency: string,
-  discordUesrId: string
+  discordUserId: string,
+  username: string,
 ) => {
   return myPrisma.plans.create({
-    data: { plan, ping, frequency, discordUesrId },
+    data: { plan, ping, frequency, discordUserId, username },
   });
 };
+
+export const getPlans = () =>
+  myPrisma.plans.findMany({ where: { isDefault: false } });

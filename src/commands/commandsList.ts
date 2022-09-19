@@ -23,4 +23,7 @@ export const commandsList = [
           "Specify your own plan. If you do not want to use the default plan, leave this blank"
         )
     ),
+  new SlashCommandBuilder()
+    .setName("done")
+    .setDescription("Call this command to complete your daily workout!"),
 ].map((command) => command.toJSON());

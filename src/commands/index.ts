@@ -1,4 +1,6 @@
 import { Client, Interaction, SlashCommandBuilder } from "discord.js";
+import { buildEmbed } from "../components/embedForm";
+import { complete } from "../db/completed";
 import { addPlan, getDefaultPlan } from "../db/plan";
 
 export const commands = (client: Client) => {
@@ -21,16 +23,28 @@ export const commands = (client: Client) => {
       const plan = await getDefaultPlan();
       if (!plan) reply = "No default plan found";
       else reply += plan.plan;
+      console.log(interaction.user)
       await interaction.reply({ content: reply, ephemeral: true });
     } else if (commandName === "signup") {
       let userplan = interaction.options.getString("plan");
       if (!userplan) userplan = (await getDefaultPlan())?.plan ?? "";
-      const plan = await addPlan(userplan, false, "daily", interaction.user.id);
+      const plan = await addPlan(userplan, false, "daily", interaction.user.id, interaction.user.username);
 
       let reply = "";
       if (!plan) reply = "Something went wrong. Your plan was not saved.";
       else reply = "Your plan has been set. \n" + plan.plan;
       await interaction.reply({ content: reply, ephemeral: true });
+    }
+    else if (commandName === "done") {
+      const completed = await complete(interaction.user.id);
+      const reply =
+        completed ?
+          "Congradualtions on completing your workout!" :
+          "You have already completed your workout for today!";
+      await interaction.reply({ content: reply, ephemeral: true });
+      const channel = await client.channels.fetch(process.env.CHANNEL_ID!);
+      if (!channel || !channel.isTextBased()) return;
+      channel.send({ embeds: [await buildEmbed()] });
     }
   });
 };

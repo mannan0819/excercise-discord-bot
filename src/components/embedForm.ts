@@ -1,4 +1,33 @@
+import { Completed } from "@prisma/client";
 import { EmbedBuilder } from "discord.js";
+import { isCompleted, isCompletedDay } from "../db/completed";
+import { getPlans } from "../db/plan";
+
+
+const checkIfCompleted = (discordUserId: string, completedList: Completed[]) =>
+    completedList.find((completed: Completed) => completed.discordUserId === discordUserId);
+
+
+const getDesciption = async () => {
+    const plans = await getPlans();
+    const completedforDay = await isCompletedDay();
+    let description = '';
+    if (plans.length === 0) description = 'No plans found';
+    plans.forEach((plan) => {
+        const completed = checkIfCompleted(plan.discordUserId, completedforDay);
+        const completedText = completed ? ' x ' : '  ';
+        description += `[ ${completedText} ]  ${plan.username}: ${plan.plan}\n`
+    })
+    return description;
+}
+
+export const buildEmbed = async () => {
+    const description = await getDesciption();
+    return new EmbedBuilder()
+        .setColor(0x601721)
+        .setTitle('EXERCISE PLAN ')
+        .setDescription(description)
+}
 
 export const exampleEmbed = new EmbedBuilder()
     .setColor(0x0099FF)

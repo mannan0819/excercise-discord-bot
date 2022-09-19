@@ -15,7 +15,14 @@ model Plans {
   plan          String   @db.VarChar(5000)
   ping          Boolean  @default(false)
   isDefault     Boolean  @default(false)
-  discordUesrId String   @unique @db.VarChar(255)
+  username      String   @db.VarChar(255)
+  discordUserId String   @unique @db.VarChar(255)
   frequency     String   @default("daily") @db.VarChar(255)
   createdAt     DateTime @default(now()) @db.Timestamp(6)
+}
+
+model Completed {
+  id            Int      @id @default(autoincrement())
+  discordUserId String   @db.VarChar(255)
+  date          DateTime @default(now()) @db.Date
 }
